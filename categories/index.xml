@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Categories on Pavit Kaur</title>
-    <link>https://PavitKaur05.github.io/categories/</link>
-    <description>Recent content in Categories on Pavit Kaur</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en</language><atom:link href="https://PavitKaur05.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <title>Categories by Pavit Kaur</title>
+    <link>https://pavitkaur05.github.io/categories/</link>
+    <description>Recent content in Categories  by Pavit Kaur</description>
+    
+    <language>en</language>
+    <copyright>2021 Pavit Kaur All rights reserved</copyright>
+    
+	<atom:link href="https://pavitkaur05.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
   </channel>
 </rss>
+

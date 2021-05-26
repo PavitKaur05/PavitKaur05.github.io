@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Homes on Pavit Kaur</title>
-    <link>https://PavitKaur05.github.io/home/</link>
-    <description>Recent content in Homes on Pavit Kaur</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en</language><atom:link href="https://PavitKaur05.github.io/home/index.xml" rel="self" type="application/rss+xml" />
+    <title>Homes by Pavit Kaur</title>
+    <link>https://pavitkaur05.github.io/home/</link>
+    <description>Recent content in Homes  by Pavit Kaur</description>
+    
+    <language>en</language>
+    <copyright>2021 Pavit Kaur All rights reserved</copyright>
+    
+	<atom:link href="https://pavitkaur05.github.io/home/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title></title>
-      <link>https://PavitKaur05.github.io/home/subheader/</link>
+      <link>https://pavitkaur05.github.io/home/subheader/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://PavitKaur05.github.io/home/subheader/</guid>
-      <description>Kathyrn Barret says &amp;ldquo;Falling in love with code means falling in love with problem solving and being part of forever ongoing conversation&amp;rdquo; </description>
+      <author>pavitk1@gmail.com (Pavit Kaur)</author>
+      <guid>https://pavitkaur05.github.io/home/subheader/</guid>
+      <description>&lt;h2 id=&#34;kathyrn-barret-says&#34;&gt;&lt;strong&gt;Kathyrn Barret says&lt;/strong&gt;&lt;/h2&gt;
+&lt;h4 id=&#34;falling-in-love-with-code-means-falling-in-love-with-problem-solving-and-being-part-of-forever-ongoing-conversation&#34;&gt;&lt;em&gt;&amp;ldquo;Falling in love with code means falling in love with problem solving and being part of forever ongoing conversation&amp;rdquo;&lt;/em&gt;&lt;/h4&gt;
+</description> 
     </item>
     
   </channel>
 </rss>
+
