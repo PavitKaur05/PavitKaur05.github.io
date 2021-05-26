@@ -2,14 +2,14 @@ name = "Hugo Initio"
 license = "MIT"
 licenselink = "https://github.com/miguelsimoni/hugo-initio/blob/master/LICENSE.md"
 description = ""
-homepage = "https://miguelsimoni.github.io/hugo-initio-site/"
+homepage = "https://pavitkaur05.github.io/"
 tags = ["blog","responsive","personal","google analytics","portfolio","disqus","bootstrap","font awesome","projects","creative","landing page","product","white","share this"]
 features = ["blog","responsive","personal","google analytics","portfolio","disqus","bootstrap","font awesome","projects","creative","landing page","product","white","share this"]
 min_version = "0.68.3"
 
 [author]
   name = "Pavit Kaur"
-  homepage = ""
+  homepage = "https://pavitkaur05.github.io/"
 
 [original]
   name = "Initio"
