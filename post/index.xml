@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Initio - Free, multipurpose html5 template by GetTemplate</title>
+    <link>https://PavitKaur05.github.io/post/</link>
+    <description>Recent content in Posts on Initio - Free, multipurpose html5 template by GetTemplate</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 25 May 2021 12:00:00 +0000</lastBuildDate><atom:link href="https://PavitKaur05.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Journey to GSoC</title>
+      <link>https://PavitKaur05.github.io/post/journey-to-gsoc/</link>
+      <pubDate>Tue, 25 May 2021 12:00:00 +0000</pubDate>
+      
+      <guid>https://PavitKaur05.github.io/post/journey-to-gsoc/</guid>
+      <description>I am really excited that my Google Summer of Code proposal with Debian for the project “Debian Continuous Integration improvements” has been accepted. Through this blog, I am here to share about my Pre-GSoC journey.
+I knew about GSoC since my first year of college but had this misconception that only great coders get selected for GSoC which did not let me apply to the program until my 3rd year of engineering.</description>
+    </item>
+    
+  </channel>
+</rss>
