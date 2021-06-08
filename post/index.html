@@ -20,7 +20,7 @@
 	
 	
   
-  <link rel="stylesheet" href="https://pavitkaur05.github.io/css/styles.min.cb2e04c86327cd2f968a4ee1ca87dcad1640eb49a97e08780e62d750cbb0a6595e6ddfa10ab9abdd50d33605f33d0bbbdc166076fa120aa6cb77a7b5ef4ca16f.css" integrity="sha512-yy4EyGMnzS&#43;Wik7hyofcrRZA60mpfgh4DmLXUMuwpllebd&#43;hCrmr3VDTNgXzPQu73BZgdvoSCqbLd6e170yhbw==">
+  <link rel="stylesheet" href="https://pavitkaur05.github.io/css/styles.min.478ce7f1a7e39f30dd5d9e06334de159c15dff169ed6a37c9787a11587b5044191393621cd4d4526fc1394fbcac15e9291bb69d0fb3ae8b777d95cb0c3bb33f1.css" integrity="sha512-R4zn8afjnzDdXZ4GM03hWcFd/xae1qN8l4ehFYe1BEGROTYhzU1FJvwTlPvKwV6Skbtp0Ps66Ld32Vyww7sz8Q==">
 
    
   
@@ -30,18 +30,9 @@
   </head>
   
   <body class="home">
-
     
-      <header id="header">
-  <div id="head" class="parallax" data-parallax-speed="2" style="background-image:url('https://pavitkaur05.github.io/images/bg_head5.jpg');">
-    <h1 id="logo" class="text-center">
-      <img class='img-circle' src="https://pavitkaur05.github.io/images/PavitKaur.jpeg" alt="">
-      <span class="title">Pavit Kaur</span>
-      <span class="tagline">Enthusiastic Problem solver<br>
-        <a href="mailto:pavitk1@gmail.com">pavitk1@gmail.com</a>
-      </span>
-   </h1>
-</div>
+      
+
 
 <nav class="navbar navbar-default navbar-sticky">
     <div class="container-fluid">
@@ -94,6 +85,47 @@
 		<div class="row topspace">
 			<div class="col-sm-8 col-sm-offset-2">
 
+        
+				<article class="post">
+					<header class="entry-header">
+						<div class="entry-meta">
+               <span class="posted-on">
+                  <time class="entry-date published" datetime="June 8, 2021">June 8, 2021</time>
+               </span>
+						</div>
+						<h1 class="entry-title">
+						  <a href="https://pavitkaur05.github.io/post/gsoc-about-my-project-and-community-bonding-period/" rel="bookmark">GSoC: About my Project and Community Bonding Period</a>
+						</h1>
+					</header>
+					<div class="entry-content">
+						<p><img src="/images/debcixgsoc.jpeg" alt="alt text"></p>
+<p>To start writing about updates regarding my GSoC project, the first obvious thing I need to do is to explain what my project really is. So let’s get started.</p>
+<h2 id="about-my-project">About my project</h2>
+<h4 id="what-is-debci">What is debci?</h4>
+<p>Directly stating from the official docs:</p>
+<blockquote>
+<p>The Debian continuous integration (debci) is an automated system that coordinates the execution of automated tests against packages in the Debian system.</p>
+</blockquote>
+<h5 id="lets-try-decoding-it">Let&rsquo;s try decoding it:</h5>
+<p>Debian is a huge system with thousands of packages and within these packages exist inter-package dependencies. So if any package is updated, it is important to test if that package is working correctly but it is equally important to test that all the packages which are dependent on this updated package are working correctly too.</p>
+<p><a href="https://ci.debian.net/">Debci</a> is a platform serving this purpose of automated testing for the entire Debian archive whenever a new version of the package, or of any package in its dependency chain is available. It comes with a UI that lets developers easily run tests and see their results if they pass or not.</p>
+<p>For my GSoC project, I am working to implement some incremental improvements to debci making it easier to use and maintain.</p>
+<h2 id="community-bonding-period">Community Bonding Period</h2>
+<h4 id="the-debci-community">The debci community</h4>
+<p>Everyone I have come across till now in the community is very nice. The debci community in itself is a small but active community. It really feels good to be a part of conversations here.</p>
+<h4 id="weekly-call-set-up">Weekly call set up</h4>
+<p>I have two mentors for this project Antonio Terceiro and Paul Gevers and they have set up a weekly sync call with me in which I will share my updates regarding the work done in the past week, any issues I am facing, and discuss the work for next week.  In addition to this, I can always contact them on IRC for any issue I am stuck in.</p>
+<h4 id="work-till-now">Work till now</h4>
+<p>The first thing I did in the community bonding period is setting up this blog. I wanted to have one for a long time and this seems to be a really nice opportunity to start. And the fact this has been added to <a href="https://planet.debian.org/">Planet Debian</a> too makes me happier to write. I am still trying to get a hang of this and definitely need to learn how to spend less time writing it.</p>
+<p>I also worked on my already opened merge requests during this period and got them merged.</p>
+<p>Since I am already familiar with the codebase, so I started with my first deliverable a bit earlier before the official coding period begins which is <strong>migrating the logins to Salsa, Debian’s Gitlab Instance.</strong></p>
+<p>Currently, debci uses Debian SSO client certificates for logging in, but that is deprecated so it needs to be migrated to use <a href="https://salsa.debian.org/">Salsa</a> as an identity provider.</p>
+<p>The OmniAuth library is being used to implement this with help of ruby-omniauth-gitlab strategy. I explored a great deal about integrating OmniAuth with our application and bumped into so many issues too when I began implementing that. Once I am done integrating the Salsa Authentication with debci, I am planning to write a separate tutorial on that which could be helpful to other people using OmniAuth with their application.</p>
+<p>With that, the community bonding period has ended on 7th June and the coding period officially begins and for now, I will be continuing working on my first deliverable.</p>
+<p>That&rsquo;s all for now. See you next time!</p>
+
+					</div>
+				</article>
         
 				<article class="post">
 					<header class="entry-header">
