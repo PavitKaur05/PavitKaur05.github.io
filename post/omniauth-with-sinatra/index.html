@@ -6,7 +6,7 @@
   	<meta name="description" content="">
   	<meta name="author"      content="map[email:pavitk1@gmail.com name:Pavit Kaur]">
     
-    	<title>Posts</title>
+    	<title>Tutorial: Integrating OmniAuth with Sinatra Application</title>
 	<link rel="shortcut icon" href="https://pavitkaur05.github.io/images/gt_favicon.png">
 	<link rel="alternate" type="application/rss+xml" href="https://pavitkaur05.github.io/index.xml" title="My Site">
 	
@@ -25,8 +25,7 @@
    
   
 
-	<link rel="alternate" type="application/rss+xml" href="https://pavitkaur05.github.io/post/index.xml" title="Pavit Kaur" />
-
+	
   </head>
   
   <body class="home">
@@ -82,20 +81,18 @@
 <main id="main">
 
 	<div class="container">
+
 		<div class="row topspace">
 			<div class="col-sm-8 col-sm-offset-2">
 
-        
-				<article class="post">
+ 				<article class="post">
 					<header class="entry-header">
-						<div class="entry-meta">
+ 						<div class="entry-meta">
                <span class="posted-on">
                   <time class="entry-date published" datetime="July 4, 2021">July 4, 2021</time>
                </span>
-						</div>
-						<h1 class="entry-title">
-						  <a href="https://pavitkaur05.github.io/post/omniauth-with-sinatra/" rel="bookmark">Tutorial: Integrating OmniAuth with Sinatra Application</a>
-						</h1>
+ 						</div>
+ 						<h1 class="entry-title"><a href="https://pavitkaur05.github.io/post/omniauth-with-sinatra/" rel="bookmark">Tutorial: Integrating OmniAuth with Sinatra Application</a></h1>
 					</header>
 					<div class="entry-content">
 						<p>As part of my GSoC project, my first task includes that user could login into their account on <a href="https://ci.debian.net/">debci</a> using their <a href="https://salsa.debian.org/">Debian Salsa</a> account (collaborative development server for Debian based on the GitLab software).</p>
@@ -197,89 +194,30 @@ post <span style="color:#e6db74">&#39;/auth/developer/callback&#39;</span> <span
 
 					</div>
 				</article>
-        
-				<article class="post">
-					<header class="entry-header">
-						<div class="entry-meta">
-               <span class="posted-on">
-                  <time class="entry-date published" datetime="June 8, 2021">June 8, 2021</time>
-               </span>
-						</div>
-						<h1 class="entry-title">
-						  <a href="https://pavitkaur05.github.io/post/gsoc-about-my-project-and-community-bonding-period/" rel="bookmark">GSoC: About my Project and Community Bonding Period</a>
-						</h1>
-					</header>
-					<div class="entry-content">
-						<p><img src="/images/debcixgsoc.jpeg" alt="alt text"></p>
-<p>To start writing about updates regarding my GSoC project, the first obvious thing I need to do is to explain what my project really is. So let’s get started.</p>
-<h2 id="about-my-project">About my project</h2>
-<h4 id="what-is-debci">What is debci?</h4>
-<p>Directly stating from the official docs:</p>
-<blockquote>
-<p>The Debian continuous integration (debci) is an automated system that coordinates the execution of automated tests against packages in the Debian system.</p>
-</blockquote>
-<h5 id="lets-try-decoding-it">Let&rsquo;s try decoding it:</h5>
-<p>Debian is a huge system with thousands of packages and within these packages exist inter-package dependencies. So if any package is updated, it is important to test if that package is working correctly but it is equally important to test that all the packages which are dependent on this updated package are working correctly too.</p>
-<p><a href="https://ci.debian.net/">Debci</a> is a platform serving this purpose of automated testing for the entire Debian archive whenever a new version of the package, or of any package in its dependency chain is available. It comes with a UI that lets developers easily run tests and see their results if they pass or not.</p>
-<p>For my GSoC project, I am working to implement some incremental improvements to debci making it easier to use and maintain.</p>
-<h2 id="community-bonding-period">Community Bonding Period</h2>
-<h4 id="the-debci-community">The debci community</h4>
-<p>Everyone I have come across till now in the community is very nice. The debci community in itself is a small but active community. It really feels good to be a part of conversations here.</p>
-<h4 id="weekly-call-set-up">Weekly call set up</h4>
-<p>I have two mentors for this project Antonio Terceiro and Paul Gevers and they have set up a weekly sync call with me in which I will share my updates regarding the work done in the past week, any issues I am facing, and discuss the work for next week.  In addition to this, I can always contact them on IRC for any issue I am stuck in.</p>
-<h4 id="work-till-now">Work till now</h4>
-<p>The first thing I did in the community bonding period is setting up this blog. I wanted to have one for a long time and this seems to be a really nice opportunity to start. And the fact this has been added to <a href="https://planet.debian.org/">Planet Debian</a> too makes me happier to write. I am still trying to get a hang of this and definitely need to learn how to spend less time writing it.</p>
-<p>I also worked on my already opened merge requests during this period and got them merged.</p>
-<p>Since I am already familiar with the codebase, so I started with my first deliverable a bit earlier before the official coding period begins which is <strong>migrating the logins to Salsa, Debian’s Gitlab Instance.</strong></p>
-<p>Currently, debci uses Debian SSO client certificates for logging in, but that is deprecated so it needs to be migrated to use <a href="https://salsa.debian.org/">Salsa</a> as an identity provider.</p>
-<p>The OmniAuth library is being used to implement this with help of ruby-omniauth-gitlab strategy. I explored a great deal about integrating OmniAuth with our application and bumped into so many issues too when I began implementing that. Once I am done integrating the Salsa Authentication with debci, I am planning to write a separate tutorial on that which could be helpful to other people using OmniAuth with their application.</p>
-<p>With that, the community bonding period has ended on 7th June and the coding period officially begins and for now, I will be continuing working on my first deliverable.</p>
-<p>That&rsquo;s all for now. See you next time!</p>
 
-					</div>
-				</article>
-        
-				<article class="post">
-					<header class="entry-header">
-						<div class="entry-meta">
-               <span class="posted-on">
-                  <time class="entry-date published" datetime="May 25, 2021">May 25, 2021</time>
-               </span>
-						</div>
-						<h1 class="entry-title">
-						  <a href="https://pavitkaur05.github.io/post/journey-to-gsoc/" rel="bookmark">Journey to GSoC</a>
-						</h1>
-					</header>
-					<div class="entry-content">
-						<p>I am really excited that my Google Summer of Code proposal with Debian for the project <strong>“Debian Continuous Integration improvements”</strong> has been accepted. Through this blog, I am here to share about my Pre-GSoC journey.</p>
-<p><img src="https://pavitkaur05.github.io/images/gsoc.jpeg" alt="alt text"></p>
-<p>I knew about GSoC since my first year of college but had this misconception that only great coders get selected for GSoC which did not let me apply to the program until my 3rd year of engineering. I applied this year not because I thought I have turned into one but because I actually wanted to give a fair try to this before the time I become ineligible to participate.</p>
-<h2 id="finding-project">Finding Project</h2>
-<p>Scrolling through the list of GSoC 2021 organizations, I was checking out projects of organizations I am familiar with. Debian is one of the huge Open Source communities that has always inspired developers around the world to contribute to Open Source. So as I checked through Debian projects, I got excited to find the “Debian Continuous Integration improvements” project  (referred to as debci in this post) related to web development and more concerned with backend work which is something I am very much interested in.</p>
-<p>I joined the community, and as directed by the application tasks of the project I set up the debci on my machine and started with an issue labeled as a newcomer. Soon I was able to submit my first Merge Request and it was reviewed by Antonio Terceiro, the mentor of my GSoC Project. With his further guidance, I was able to turn MR into an acceptable patch, and voila it got merged! That really did boost my morale to contribute further to the project.</p>
-<h2 id="student-application-period">Student Application Period</h2>
-<p>At the suggestion of the mentor, during the Student Application Period, I worked on more open issues which were helping me understand the codebase better and in turn the deliverables of the project for my proposal. For my every doubt, I first tried to tackle it myself, and if still not able to find a solution I turn to mentors who did their best to answer my queries and this is how I completed my proposal and got it reviewed by Antonio before finally submitting it on 13th April. I still cannot express that feeling of satisfaction I achieved on submitting the proposal. I finally successfully applied for GSoC.</p>
-<h2 id="after-proposal-submission">After Proposal Submission</h2>
-<p>I did not stop my contribution after the Student Application period ended and kept on working on more issues which helped me stay in touch with the project and also because I was enjoying it a lot. I had already made up my mind to contribute more in Open Source as I learned and enjoyed plenty during this process.</p>
-<h2 id="day-of-results">Day of Results</h2>
-<p>On 17th May, I got my acceptance mail at around 11:30 pm at night and I remember screaming and waking everybody up in my home to announce the news to them. It was truly the happiest moment for me.</p>
-<h2 id="moment-of-truth">Moment of Truth</h2>
-<p>I would admit that I got involved with GSoC because of the reputation associated with it but things I learned during this pre GSoC period have made me realize the fun and learning opportunities associated with working opensource and I am here to stay for sure.</p>
-<p>I plan to write more blogs regarding my project and keep you guys updated about my work. Stay tuned!</p>
-
-					</div>
-				</article>
-        
 			</div>
-		</div>
+		</div> 
 
-		<center class="">
-			<ul class="pagination">
-        
+		<div class="row">
+			<div class="col-sm-8 col-sm-offset-2">
 
+				<div id="share">
+					
+				</div>
+			</div>
+		</div> 
+		<div class="clearfix"></div>
 
-			</ul>
-		</center>
+		<div class="row">
+			<div class="col-sm-8 col-sm-offset-2">
+
+				<div id="comments">
+					
+				</div>
+			</div>
+		</div> 
+		<div class="clearfix"></div>
+
 	</div>	
 
 </main>

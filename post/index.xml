@@ -7,10 +7,115 @@
     
     <language>en</language>
     <copyright>2021 Pavit Kaur All rights reserved</copyright>
-    <lastBuildDate>Tue, 08 Jun 2021 12:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 04 Jul 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://pavitkaur05.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Tutorial: Integrating OmniAuth with Sinatra Application</title>
+      <link>https://pavitkaur05.github.io/post/omniauth-with-sinatra/</link>
+      <pubDate>Sun, 04 Jul 2021 00:00:00 +0000</pubDate>
+      <author>pavitk1@gmail.com (Pavit Kaur)</author>
+      <guid>https://pavitkaur05.github.io/post/omniauth-with-sinatra/</guid>
+      <description>&lt;p&gt;As part of my GSoC project, my first task includes that user could login into their account on &lt;a href=&#34;https://ci.debian.net/&#34;&gt;debci&lt;/a&gt; using their &lt;a href=&#34;https://salsa.debian.org/&#34;&gt;Debian Salsa&lt;/a&gt; account (collaborative development server for Debian based on the GitLab software).&lt;/p&gt;
+&lt;p&gt;The task is officially completed using &lt;a href=&#34;https://github.com/omniauth/omniauth&#34;&gt;OmniAuth&lt;/a&gt; library and while implementing it, I found that the documentation of OmniAuth is quite a mix-match and more focused on using it with Rails app and this gives me a idea to write a tutorial for people looking to integrate OmniAuth with Sinatra application. So here it is.&lt;/p&gt;
+&lt;p&gt;Now, depending on the provider, Omniauth requires specific strategy which are generally released individually as RubyGems. For this tutorial, I would be using &lt;code&gt;omniauth-gitlab&lt;/code&gt; which I used for Debian Salsa in my project, &lt;code&gt;omniauth-twitter&lt;/code&gt; and a &lt;code&gt;developer&lt;/code&gt; strategy which could be used for project in development mode and comes with &lt;code&gt;omniauth&lt;/code&gt; gem itself.&lt;/p&gt;
+&lt;p&gt;For simplicity purposes, I have included all routes and OmniAuth configurations in a single file &lt;code&gt;app.rb&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s start.&lt;/p&gt;
+&lt;h3 id=&#34;register-your-application&#34;&gt;Register your application&lt;/h3&gt;
+&lt;p&gt;This can be easily done – just head over to provider (Twitter, Salsa) website and find the option to &lt;strong&gt;create a new application&lt;/strong&gt; and fill in the form. In the callback URL field, you need to append &lt;code&gt;/auth/:provider/callback&lt;/code&gt; to whichever URL you used in the website field.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pavitkaur05.github.io/images/tutorial-register-app.png&#34; alt=&#34;tutorial-register-app&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;client-id&lt;/code&gt; and &lt;code&gt;client-secret&lt;/code&gt; is obtained from the console which is used in further step to set up OmniAuth.&lt;/p&gt;
+&lt;h3 id=&#34;gems&#34;&gt;Gems&lt;/h3&gt;
+&lt;p&gt;At the top of the file, we require the necessary gems of for our project&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;require &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;sinatra&amp;#39;&lt;/span&gt;
+require &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;omniauth&amp;#39;&lt;/span&gt;
+require &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;omniauth-gitlab&amp;#39;&lt;/span&gt;
+require &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;omniauth-twitter&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;enable-sessions&#34;&gt;Enable sessions&lt;/h3&gt;
+&lt;p&gt;In order for OmniAuth to work and to store the logged in user across requests, sessions need to be activated and if activated, you have one session hash per user session.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;configure &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt;
+    set &lt;span style=&#34;color:#e6db74&#34;&gt;:sessions&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;set-up-omniauth-configurations&#34;&gt;Set up OmniAuth configurations&lt;/h3&gt;
+&lt;p&gt;OmniAuth::Builder Rack middleware build up your list of OmniAuth strategies for use in your application:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;use &lt;span style=&#34;color:#66d9ef&#34;&gt;OmniAuth&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Builder&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; development?
+      provider &lt;span style=&#34;color:#e6db74&#34;&gt;:developer&lt;/span&gt;,
+               &lt;span style=&#34;color:#e6db74&#34;&gt;fields&lt;/span&gt;: &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;:name&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;,
+               &lt;span style=&#34;color:#e6db74&#34;&gt;uid_field&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;:name&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+    provider &lt;span style=&#34;color:#e6db74&#34;&gt;:gitlab&lt;/span&gt;, &lt;span style=&#34;color:#75715e&#34;&gt;#client-id , #client-secret,&lt;/span&gt;
+             &lt;span style=&#34;color:#e6db74&#34;&gt;scope&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;read_user&amp;#34;&lt;/span&gt;,
+             &lt;span style=&#34;color:#e6db74&#34;&gt;client_options&lt;/span&gt;: {
+               &lt;span style=&#34;color:#e6db74&#34;&gt;site&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;https://salsa.debian.org/api/v4/&amp;#39;&lt;/span&gt;
+             }
+    provider &lt;span style=&#34;color:#e6db74&#34;&gt;:twitter&lt;/span&gt;, &lt;span style=&#34;color:#75715e&#34;&gt;#client-id , #client-secret,&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Here, few things to note could be the extra options used with providers, as&lt;br&gt;
+In &lt;strong&gt;developer&lt;/strong&gt;:&lt;br&gt;
+&lt;code&gt;fields&lt;/code&gt; : to specify the form fields for login in developer mode and by default it has name and email.&lt;br&gt;
+&lt;code&gt;uid_field&lt;/code&gt;: to specify that which field&amp;rsquo;s value could be obtained as uid and by default it is email.&lt;br&gt;
+In &lt;strong&gt;gitlab&lt;/strong&gt;:&lt;br&gt;
+&lt;code&gt;scope&lt;/code&gt;: to limit the scope of application, by default, the api scope is requested and must be allowed in GitLab&amp;rsquo;s application configuration.&lt;br&gt;
+&lt;code&gt;client_options&lt;/code&gt;: to specify the server being used as client based on Gitlab software.&lt;br&gt;
+&lt;strong&gt;Note&lt;/strong&gt;: In case you want to have a different callback url other than the default &lt;code&gt;/auth/:provider/callback&lt;/code&gt;, it can be specified using &lt;code&gt;redirect_url&lt;/code&gt; option in case of &lt;code&gt;gitlab&lt;/code&gt; provider and accordingly update it in your Application Configuration at provider&amp;rsquo;s console.&lt;/p&gt;
+&lt;h4 id=&#34;extra-configurations&#34;&gt;Extra configurations&lt;/h4&gt;
+&lt;p&gt;To redirect to &lt;code&gt;auth/failure&lt;/code&gt; route in case of failure even in developer mode, following could be added:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;OmniAuth&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;config&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;on_failure &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; proc &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;env&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;OmniAuth&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;FailureEndpoint&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;new(env)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;redirect_to_failure
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;By default, OmniAuth will log to STDOUT but you can configure this. If you don&amp;rsquo;t want OmniAuth to log to STDOUT, following could be used:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;OmniAuth&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;config&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;logger&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;level &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Logger&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;UNKNOWN&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;setting-up-routes&#34;&gt;Setting up routes&lt;/h3&gt;
+&lt;h5 id=&#34;login-route&#34;&gt;Login route&lt;/h5&gt;
+&lt;p&gt;Starting with GET &lt;code&gt;/login&lt;/code&gt; route, where you can specify the options available to login:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;get &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/login&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;~&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;HTML&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;form method&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;post&amp;#39;&lt;/span&gt; action&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/auth/gitlab&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;input type&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;hidden&amp;#34;&lt;/span&gt; name&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;authenticity_token&amp;#34;&lt;/span&gt; value&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;#{request.env[&amp;#34;rack.session&amp;#34;][&amp;#34;csrf&amp;#34;]}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;button type&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;submit&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Login&lt;/span&gt; with &lt;span style=&#34;color:#66d9ef&#34;&gt;Salsa&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;/button&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;lt;/&lt;/span&gt;form&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;form method&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;post&amp;#39;&lt;/span&gt; action&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/auth/twitter&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;input type&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;hidden&amp;#34;&lt;/span&gt; name&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;authenticity_token&amp;#34;&lt;/span&gt; value&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;#{request.env[&amp;#34;rack.session&amp;#34;][&amp;#34;csrf&amp;#34;]}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;button type&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;submit&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Login&lt;/span&gt; with &lt;span style=&#34;color:#66d9ef&#34;&gt;Twitter&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;/button&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;lt;/&lt;/span&gt;form&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;form method&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;post&amp;#39;&lt;/span&gt; action&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/auth/developer&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;input type&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;hidden&amp;#34;&lt;/span&gt; name&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;authenticity_token&amp;#34;&lt;/span&gt; value&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;#{request.env[&amp;#34;rack.session&amp;#34;][&amp;#34;csrf&amp;#34;]}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;button type&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;submit&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Login&lt;/span&gt; with &lt;span style=&#34;color:#66d9ef&#34;&gt;Developer&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;/button&amp;gt;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;lt;/&lt;/span&gt;form&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;HTML&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;auth/:provider&lt;/code&gt; path is created and configured automatically by OmniAuth, so you just need to send the request to that paths and auth process will start.&lt;br&gt;
+&lt;em&gt;As per the OmniAuth version 2.0, OmniAuth now defaults to only POST as allowed request_phase methods and &lt;code&gt;authenticity_token&lt;/code&gt; is required to validate your requests so make sure to take care of this.&lt;/em&gt;&lt;/p&gt;
+&lt;h5 id=&#34;callback-routes&#34;&gt;Callback routes:&lt;/h5&gt;
+&lt;p&gt;On success from authentication, Omniauth will return the hash of information to the &lt;code&gt;auth/:provider/callback&lt;/code&gt; in the Rack environment under the key &lt;code&gt;omniauth.auth&lt;/code&gt; so this is what you can use in your desired way like creating a entry to your database and storing the current user in &lt;code&gt;session&lt;/code&gt; params.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;get &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/auth/:provider/callback&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt;
+    erb &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;lt;h1&amp;gt;Hello &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;#{&lt;/span&gt;request&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;env&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;omniauth.auth&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;][&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;info&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;][&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;/h1&amp;gt;&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+post &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/auth/developer/callback&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt;
+    erb &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;lt;h1&amp;gt;Hello &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;#{&lt;/span&gt;request&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;env&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;omniauth.auth&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;][&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;info&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;][&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;/h1&amp;gt;&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Here, POST request method is used for &lt;code&gt;developer&lt;/code&gt; strategy and GET request method for &lt;code&gt;twitter&lt;/code&gt; and &lt;code&gt;gitlab&lt;/code&gt; as that is how their working is defined in their respective strategies.&lt;/p&gt;
+&lt;h5 id=&#34;failure-route&#34;&gt;Failure route:&lt;/h5&gt;
+&lt;p&gt;If user authentication fails on the provider side, OmniAuth will catch the response and then redirect the request to the path &lt;code&gt;/auth/failure&lt;/code&gt;, passing a corresponding error message in a parameter named message.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;get &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;/auth/failure&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt;
+    halt(&lt;span style=&#34;color:#ae81ff&#34;&gt;403&lt;/span&gt;, erb(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;lt;h2&amp;gt;Authentication Failed&amp;lt;/h2&amp;gt;&amp;lt;h4&amp;gt;Reason: &amp;lt;/h4&amp;gt;&amp;lt;pre&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;#{&lt;/span&gt;params&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;:message&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;/pre&amp;gt;&amp;#34;&lt;/span&gt;))
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;final-result&#34;&gt;Final result&lt;/h3&gt;
+&lt;p&gt;That&amp;rsquo;s it, our application is all set to be tested. And this is how it will be working.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pavitkaur05.github.io/images/232441e2d8a740ff4d8f5bfb61c190763557a289.gif&#34; alt=&#34;Tutorial&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Here, I have already logged into my respective accounts so page for entring credentials does not show up but if the user has not logged into his account, he would be first asked to log in.&lt;/p&gt;
+&lt;p&gt;For complete code, you can check out:
+&lt;a href=&#34;https://github.com/PavitKaur05/OmniAuthWithSinatra&#34;&gt;OmniAuth with Sinatra Tutorial&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;So this completes the tutorial. I hope it helps others who are looking to integrate their Ruby Applications with OmniAuth. If you have any feedback, feel free to let me know.&lt;/p&gt;
+&lt;p&gt;See you next time!&lt;/p&gt;
+</description> 
+    </item>
     
     <item>
       <title>GSoC: About my Project and Community Bonding Period</title>
