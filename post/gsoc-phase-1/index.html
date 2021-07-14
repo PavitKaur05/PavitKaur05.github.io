@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  	<meta charset="utf-8">
+  	<meta name="viewport"    content="width=device-width, initial-scale=1.0">
+  	<meta name="description" content="">
+  	<meta name="author"      content="map[email:pavitk1@gmail.com name:Pavit Kaur]">
+    
+    	<title>GSoC: First Phase of Coding Period</title>
+	<link rel="shortcut icon" href="https://pavitkaur05.github.io/images/gt_favicon.png">
+	<link rel="alternate" type="application/rss+xml" href="https://pavitkaur05.github.io/index.xml" title="My Site">
+	
+	<link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.no-icons.min.css" rel="stylesheet">
+	
+	
+	<script defer src="https://use.fontawesome.com/releases/v5.0.11/js/all.js" integrity="sha384-ImVoB8Er8knetgQakxuBS4G3RSkyD8IZVVQCAnmRJrDwqJFYUE4YOv+DbIofcO9C" crossorigin="anonymous"></script>
+	
+	
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alice|Open+Sans:400,300,700">
+	
+	
+  
+  <link rel="stylesheet" href="https://pavitkaur05.github.io/css/styles.min.478ce7f1a7e39f30dd5d9e06334de159c15dff169ed6a37c9787a11587b5044191393621cd4d4526fc1394fbcac15e9291bb69d0fb3ae8b777d95cb0c3bb33f1.css" integrity="sha512-R4zn8afjnzDdXZ4GM03hWcFd/xae1qN8l4ehFYe1BEGROTYhzU1FJvwTlPvKwV6Skbtp0Ps66Ld32Vyww7sz8Q==">
+
+   
+  
+
+	
+  </head>
+  
+  <body class="home">
+    
+      
+
+
+<nav class="navbar navbar-default navbar-sticky">
+    <div class="container-fluid">
+
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="true">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+
+        <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
+
+            <ul class="nav navbar-nav">
+            
+                
+                <li>
+                    <a href="/">home</a>
+                </li>
+                
+            
+                
+                <li>
+                    <a href="/post/">blog</a>
+                </li>
+                
+            
+                
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+                
+            
+            </ul>
+
+        </div> 
+        
+    </div>
+</nav>
+
+</header>
+    
+ 
+    
+<main id="main">
+
+	<div class="container">
+
+		<div class="row topspace">
+			<div class="col-sm-8 col-sm-offset-2">
+
+ 				<article class="post">
+					<header class="entry-header">
+ 						<div class="entry-meta">
+               <span class="posted-on">
+                  <time class="entry-date published" datetime="July 14, 2021">July 14, 2021</time>
+               </span>
+ 						</div>
+ 						<h1 class="entry-title"><a href="https://pavitkaur05.github.io/post/gsoc-phase-1/" rel="bookmark">GSoC: First Phase of Coding Period</a></h1>
+					</header>
+					<div class="entry-content">
+						<p>Hello there.</p>
+<p>I still can&rsquo;t believe that the first half of GSoC period is almost over. So it&rsquo;s been about 5 weeks working on the project and that means I have a lot to share about it. So without further ado, let&rsquo;s get started.</p>
+<p><img src="/images/gsoc-coding-period-1.jpeg" alt="coding-period-1"></p>
+<p>I will be listing up my work done in the respective tasks.</p>
+<h4 id="task-migrating-logins-to-salsa"><strong>Task: Migrating Logins to Salsa</strong></h4>
+<p>The objective of this task was that the users could log in to their account on <a href="https://ci.debian.net/">debci</a> using their <a href="https://salsa.debian.org/">Debian Salsa</a> account (collaborative development server for Debian based on the GitLab software) and this is implemented with the help of <a href="https://github.com/omniauth/omniauth">OmniAuth</a>, the ruby authentication framework.</p>
+<p>At the beginning of this, I had to discuss quite a few issues with my mentors that I was bumping into, and by the end of it with multiple revisions and discussions, the following was implemented:</p>
+<ul>
+<li>
+<p>The previous users' table schema of debci comprises the username field which contained mostly the emails of the users with some exceptions and to accommodate the Salsa logins, a new uid field is added to the table to store the Salsa uid of the logged-in user with the username field storing Salsa usernames now and as the Salsa users have the liberty to change their usernames, the updation of username as well as in debci database is also taken care of.</p>
+</li>
+<li>
+<p>For Salsa login, the <code>ruby-omniauth-gitlab</code> strategy has been used and for login in development mode, the <code>developer</code> strategy which comes with <code>ruby-omniauth</code> has been set up.</p>
+</li>
+<li>
+<p>Added a Login Page giving the option to log in using Salsa and an additional option to login in Developer Mode which is accessible only in Development Setup so that other contributors don&rsquo;t have to set up dummy Salsa applications for working.</p>
+</li>
+<li>
+<p>Added specs for the new login process. This was an interesting part, as I got the chance to understand RSpec and facilities provided by OmniAuth to mock the authentication for Integration Testing.</p>
+</li>
+<li>
+<p>One blocker that I dealt with was that the Debian release from where packages were pulled out for debci have the OmniAuth version 1.8, which was not working well with the developer strategy implementation for the application so to resolve that I did a minor change to the callback API for <code>developer</code> strategy until the time that release have the newer version of OmniAuth.</p>
+</li>
+<li>
+<p>Another thing we discussed in one of the meetings that in the existing database structure, the tests do not have a real reference to the users' table and rather the username is stored directly as a string for the requestor field, so this thing was fixed as part of this task.</p>
+</li>
+</ul>
+<p>The migration of the existing users' data for the new logins was handled by my mentor Antonio Terceiro and with this, our first task is concluded. All these changes are now part of <a href="https://ci.debian.net/">Debian Continuous Integration platform</a> and you can find the blogpost for same by Antonio <a href="https://terceiro.xyz/2021/06/27/debian-continuous-integration-now-using-salsa-logins/">here.</a></p>
+<p>This task also allowed me to write my first ever tutorial <a href="https://pavitkaur05.github.io/post/omniauth-with-sinatra/">Tutorial: Integrating OmniAuth with Sinatra Application</a> to help people looking to integrate their ruby application with OmniAuth.</p>
+<p>Moving further to the next task in progress.</p>
+<h4 id="task-adding-support-for-testing-security-uploads-and-debian-lts"><strong>Task: Adding support for testing security uploads and Debian LTS</strong></h4>
+<p>This is the next task I am working on enabling private tests in debci for adding support for testing security uploads and Debian LTS. Since it&rsquo;s a bigger task, it is broken down into about 6-7 steps and till now, the following has been done:</p>
+<ul>
+<li>
+<p>The schema of jobs' (tests) table is updated to have a boolean field to store whether the job is private or not.</p>
+</li>
+<li>
+<p>The <code>is_private</code> parameter is added to both <strong>API</strong> and <strong>Self-Service</strong> section so the private test can be submitted through the API  as well as through GUI form on the web platform.</p>
+</li>
+<li>
+<p>Another thing which comes up through discussion in meetings that a parameter is required to add <code>extra-apt-sources</code> for getting packages of security repository and this is the part in progress.</p>
+</li>
+</ul>
+<p>So that concludes my work till now. It has been an amazing journey with lots of learning and also the guidance from the wonderful mentors of my project and I am looking forward to more exciting parts ahead.</p>
+<p>That&rsquo;s all for now. See you next time!</p>
+
+					</div>
+				</article>
+
+			</div>
+		</div> 
+
+		<div class="row">
+			<div class="col-sm-8 col-sm-offset-2">
+
+				<div id="share">
+					
+				</div>
+			</div>
+		</div> 
+		<div class="clearfix"></div>
+
+		<div class="row">
+			<div class="col-sm-8 col-sm-offset-2">
+
+				<div id="comments">
+					
+				</div>
+			</div>
+		</div> 
+		<div class="clearfix"></div>
+
+	</div>	
+
+</main>
+
+    
+    
+      <footer id="footer">
+	<div class="container">
+		<div class="row">
+			
+			<div class="col-md-3 widget">
+				<h3 class="widget-title">Contact</h3>
+				<div class="widget-body">
+					<p>
+					<a href="mailto:pavitk1@gmail.com">pavitk1@gmail.com</a><br>
+					<br>
+					
+					</p>
+				</div>
+			</div>
+			
+
+			
+			<div class="col-md-3 widget">
+				<h3 class="widget-title">Follow me</h3>
+				<div class="widget-body">
+					<p class="follow-me-icons">
+            
+							
+            
+							
+								<a href="https://twitter.com/PavitKaur4" target="_blank"><i class="fab fa-twitter-square fa-1x"></i></a>
+							
+            
+							
+            
+							
+            
+							
+								<a href="https://www.linkedin.com/in/pavit-kaur-a23604178/" target="_blank"><i class="fab fa-linkedin fa-1x"></i></a>
+							
+            
+							
+            
+							
+								<a href="https://github.com/PavitKaur05" target="_blank"><i class="fab fa-github fa-1x"></i></a>
+							
+            
+							
+            
+							
+								<a href="https://salsa.debian.org/PavitKaur05" target="_blank"><i class="fab fa-gitlab fa-1x"></i></a>
+							
+            
+							
+								<a href="https://pavitkaur05.github.io/post/index.xml" target="_blank"><i class="fas fa-rss fa-1x"></i></a>
+							
+            
+					</p>
+				</div>
+			</div>
+			
+
+			
+
+			
+
+		</div> 
+	</div>
+</footer>
+
+<footer id="underfooter">
+	<div class="container">
+		<div class="row">
+
+			<div class="col-md-6 widget">
+				<div class="widget-body">
+					<p></p>
+				</div>
+			</div>
+
+			<div class="col-md-6 widget">
+				<div class="widget-body">
+					<p class="text-right">
+						Copyright &copy; 2021, Pavit Kaur<br>
+						Design: <a href="http://www.gettemplate.com" rel="designer">Initio by GetTemplate</a> - 
+						Powered by: <a href="https://gohugo.io/" rel="poweredby">Hugo</a>
+					</p>
+				</div>
+			</div>
+
+		</div> 
+	</div>
+</footer>
+
+
+
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+
+
+
+<script src="https://pavitkaur05.github.io/js/bundle.min.f4a965ad0a8118e32f8f0f158ff3aadbacf700934c22286a1a5b245105e9006da73a873b001a160db22498909c1df14d1f835dba5ad76f80b32b0234182b2a58.js" integrity="sha512-9KllrQqBGOMvjw8Vj/Oq26z3AJNMIihqGlskUQXpAG2nOoc7ABoWDbIkmJCcHfFNH4NdulrXb4CzKwI0GCsqWA=="></script>
+
+<script id="dsq-count-scr" src="///count.js" async></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script>
+
+</body>
+</html>
+
+    
+  </body>
+  
+</html>

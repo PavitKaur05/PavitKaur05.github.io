@@ -90,6 +90,67 @@
 					<header class="entry-header">
 						<div class="entry-meta">
                <span class="posted-on">
+                  <time class="entry-date published" datetime="July 14, 2021">July 14, 2021</time>
+               </span>
+						</div>
+						<h1 class="entry-title">
+						  <a href="https://pavitkaur05.github.io/post/gsoc-phase-1/" rel="bookmark">GSoC: First Phase of Coding Period</a>
+						</h1>
+					</header>
+					<div class="entry-content">
+						<p>Hello there.</p>
+<p>I still can&rsquo;t believe that the first half of GSoC period is almost over. So it&rsquo;s been about 5 weeks working on the project and that means I have a lot to share about it. So without further ado, let&rsquo;s get started.</p>
+<p><img src="/images/gsoc-coding-period-1.jpeg" alt="coding-period-1"></p>
+<p>I will be listing up my work done in the respective tasks.</p>
+<h4 id="task-migrating-logins-to-salsa"><strong>Task: Migrating Logins to Salsa</strong></h4>
+<p>The objective of this task was that the users could log in to their account on <a href="https://ci.debian.net/">debci</a> using their <a href="https://salsa.debian.org/">Debian Salsa</a> account (collaborative development server for Debian based on the GitLab software) and this is implemented with the help of <a href="https://github.com/omniauth/omniauth">OmniAuth</a>, the ruby authentication framework.</p>
+<p>At the beginning of this, I had to discuss quite a few issues with my mentors that I was bumping into, and by the end of it with multiple revisions and discussions, the following was implemented:</p>
+<ul>
+<li>
+<p>The previous users' table schema of debci comprises the username field which contained mostly the emails of the users with some exceptions and to accommodate the Salsa logins, a new uid field is added to the table to store the Salsa uid of the logged-in user with the username field storing Salsa usernames now and as the Salsa users have the liberty to change their usernames, the updation of username as well as in debci database is also taken care of.</p>
+</li>
+<li>
+<p>For Salsa login, the <code>ruby-omniauth-gitlab</code> strategy has been used and for login in development mode, the <code>developer</code> strategy which comes with <code>ruby-omniauth</code> has been set up.</p>
+</li>
+<li>
+<p>Added a Login Page giving the option to log in using Salsa and an additional option to login in Developer Mode which is accessible only in Development Setup so that other contributors don&rsquo;t have to set up dummy Salsa applications for working.</p>
+</li>
+<li>
+<p>Added specs for the new login process. This was an interesting part, as I got the chance to understand RSpec and facilities provided by OmniAuth to mock the authentication for Integration Testing.</p>
+</li>
+<li>
+<p>One blocker that I dealt with was that the Debian release from where packages were pulled out for debci have the OmniAuth version 1.8, which was not working well with the developer strategy implementation for the application so to resolve that I did a minor change to the callback API for <code>developer</code> strategy until the time that release have the newer version of OmniAuth.</p>
+</li>
+<li>
+<p>Another thing we discussed in one of the meetings that in the existing database structure, the tests do not have a real reference to the users' table and rather the username is stored directly as a string for the requestor field, so this thing was fixed as part of this task.</p>
+</li>
+</ul>
+<p>The migration of the existing users' data for the new logins was handled by my mentor Antonio Terceiro and with this, our first task is concluded. All these changes are now part of <a href="https://ci.debian.net/">Debian Continuous Integration platform</a> and you can find the blogpost for same by Antonio <a href="https://terceiro.xyz/2021/06/27/debian-continuous-integration-now-using-salsa-logins/">here.</a></p>
+<p>This task also allowed me to write my first ever tutorial <a href="https://pavitkaur05.github.io/post/omniauth-with-sinatra/">Tutorial: Integrating OmniAuth with Sinatra Application</a> to help people looking to integrate their ruby application with OmniAuth.</p>
+<p>Moving further to the next task in progress.</p>
+<h4 id="task-adding-support-for-testing-security-uploads-and-debian-lts"><strong>Task: Adding support for testing security uploads and Debian LTS</strong></h4>
+<p>This is the next task I am working on enabling private tests in debci for adding support for testing security uploads and Debian LTS. Since it&rsquo;s a bigger task, it is broken down into about 6-7 steps and till now, the following has been done:</p>
+<ul>
+<li>
+<p>The schema of jobs' (tests) table is updated to have a boolean field to store whether the job is private or not.</p>
+</li>
+<li>
+<p>The <code>is_private</code> parameter is added to both <strong>API</strong> and <strong>Self-Service</strong> section so the private test can be submitted through the API  as well as through GUI form on the web platform.</p>
+</li>
+<li>
+<p>Another thing which comes up through discussion in meetings that a parameter is required to add <code>extra-apt-sources</code> for getting packages of security repository and this is the part in progress.</p>
+</li>
+</ul>
+<p>So that concludes my work till now. It has been an amazing journey with lots of learning and also the guidance from the wonderful mentors of my project and I am looking forward to more exciting parts ahead.</p>
+<p>That&rsquo;s all for now. See you next time!</p>
+
+					</div>
+				</article>
+        
+				<article class="post">
+					<header class="entry-header">
+						<div class="entry-meta">
+               <span class="posted-on">
                   <time class="entry-date published" datetime="July 4, 2021">July 4, 2021</time>
                </span>
 						</div>
