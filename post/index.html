@@ -90,6 +90,49 @@
 					<header class="entry-header">
 						<div class="entry-meta">
                <span class="posted-on">
+                  <time class="entry-date published" datetime="August 21, 2021">August 21, 2021</time>
+               </span>
+						</div>
+						<h1 class="entry-title">
+						  <a href="https://pavitkaur05.github.io/post/gsoc-phase-2/" rel="bookmark">GSoC: Second Phase of Coding Period</a>
+						</h1>
+					</header>
+					<div class="entry-content">
+						<p>Hello there.</p>
+<p>So here we are near the end of <strong>GSoC 2021</strong> and with that, I am sharing details of the work I completed in the second phase of the coding period.</p>
+<p><img src="/images/gsoc-coding-period-2.jpeg" alt="coding-period-2"></p>
+<p>Continuing with details of the task I left on&hellip;</p>
+<h4 id="task-adding-support-for-testing-security-uploads-and-debian-lts"><strong>Task: Adding support for testing security uploads and Debian LTS</strong></h4>
+<ul>
+<li>
+<p>The <code>extra-apt-sources</code> parameter is added to both <strong>API</strong> and <strong>Self-Service</strong> section for the <code>test request</code> object and the part which took some time was deciding on its validation since if you ever deal with <code>apt sources</code>, you would know that there exist a lot of combinations of a valid <code>apt source</code> and in the end, the decision was taken to just add the minimal checks.</p>
+</li>
+<li>
+<p>Since, we have enough setup to request <code>private</code> tests, it made sense to have a way of looking them up in the <strong>Self-Service</strong> section. So a new column is added to the test records in <code>Job-History</code> marking the <code>visibility</code> of a test (<code>private</code> or <code>public</code>) and a new filter to filter out records based on the <code>visibility</code>.</p>
+</li>
+<li>
+<p>The option to <code>retry</code> tests is also added in <strong>Self-Service</strong> in the <code>Job-History</code> section so that <code>private</code> tests can also be retried. As earlier, this option was only available in Package History pages but those pages do not show the <code>private</code> tests.</p>
+</li>
+<li>
+<p>The next thing in the list was to <code>publish</code> these test results of <code>private</code> tests at some point.
+For the <strong>API</strong> section, a new endpoint is added to accept a string of <code>run_ids</code> which is ready to be published, and for the <strong>Self-Service</strong> , in the Job-History page a <code>Publish</code> button is added to be clicked after check boxing the required tests.</p>
+</li>
+</ul>
+<p>This ends the list of my planned work for the project. 🎉</p>
+<h4 id="some-more-interesting-stuff"><strong>Some more interesting stuff</strong></h4>
+<p>As we got some more time for the coding period to end, my mentor Antonio Terceiro suggested that I could pick any issue from the opened issues list to work on so I picked up the one to add a user menu for the <strong>Self-Service</strong> section and completed that.</p>
+<p>Antonio also gave me insights into <strong>Debian Packaging</strong> and even let me try packaging a newer upstream version of the package <a href="https://salsa.debian.org/ruby-team/itamae/-/commit/18a9d883cd83f8aab46f51a97ba20c1e52ff41fa">itamae</a> which is one of the packages maintained by him.</p>
+<p>I also worked on creating a video about my GSoC project for <a href="https://debconf21.debconf.org/">DebConf21</a> and this was truly the hardest thing to do. From setting up everything to final editing, it took me about 2 days to create something sane to submit. Now, I am excited about DebConf21 😃</p>
+<p>That concludes my work in the second phase of the coding period and next, I will be sharing my <strong>Final Evaluation Submission</strong> real soon.</p>
+<p>Stay tuned!</p>
+
+					</div>
+				</article>
+        
+				<article class="post">
+					<header class="entry-header">
+						<div class="entry-meta">
+               <span class="posted-on">
                   <time class="entry-date published" datetime="July 14, 2021">July 14, 2021</time>
                </span>
 						</div>

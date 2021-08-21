@@ -7,10 +7,46 @@
     
     <language>en</language>
     <copyright>2021 Pavit Kaur All rights reserved</copyright>
-    <lastBuildDate>Wed, 14 Jul 2021 03:52:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 21 Aug 2021 07:36:00 +0000</lastBuildDate>
     
 	<atom:link href="https://pavitkaur05.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>GSoC: Second Phase of Coding Period</title>
+      <link>https://pavitkaur05.github.io/post/gsoc-phase-2/</link>
+      <pubDate>Sat, 21 Aug 2021 07:36:00 +0000</pubDate>
+      <author>pavitk1@gmail.com (Pavit Kaur)</author>
+      <guid>https://pavitkaur05.github.io/post/gsoc-phase-2/</guid>
+      <description>&lt;p&gt;Hello there.&lt;/p&gt;
+&lt;p&gt;So here we are near the end of &lt;strong&gt;GSoC 2021&lt;/strong&gt; and with that, I am sharing details of the work I completed in the second phase of the coding period.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pavitkaur05.github.io/images/gsoc-coding-period-2.jpeg&#34; alt=&#34;coding-period-2&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Continuing with details of the task I left on&amp;hellip;&lt;/p&gt;
+&lt;h4 id=&#34;task-adding-support-for-testing-security-uploads-and-debian-lts&#34;&gt;&lt;strong&gt;Task: Adding support for testing security uploads and Debian LTS&lt;/strong&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;The &lt;code&gt;extra-apt-sources&lt;/code&gt; parameter is added to both &lt;strong&gt;API&lt;/strong&gt; and &lt;strong&gt;Self-Service&lt;/strong&gt; section for the &lt;code&gt;test request&lt;/code&gt; object and the part which took some time was deciding on its validation since if you ever deal with &lt;code&gt;apt sources&lt;/code&gt;, you would know that there exist a lot of combinations of a valid &lt;code&gt;apt source&lt;/code&gt; and in the end, the decision was taken to just add the minimal checks.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Since, we have enough setup to request &lt;code&gt;private&lt;/code&gt; tests, it made sense to have a way of looking them up in the &lt;strong&gt;Self-Service&lt;/strong&gt; section. So a new column is added to the test records in &lt;code&gt;Job-History&lt;/code&gt; marking the &lt;code&gt;visibility&lt;/code&gt; of a test (&lt;code&gt;private&lt;/code&gt; or &lt;code&gt;public&lt;/code&gt;) and a new filter to filter out records based on the &lt;code&gt;visibility&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The option to &lt;code&gt;retry&lt;/code&gt; tests is also added in &lt;strong&gt;Self-Service&lt;/strong&gt; in the &lt;code&gt;Job-History&lt;/code&gt; section so that &lt;code&gt;private&lt;/code&gt; tests can also be retried. As earlier, this option was only available in Package History pages but those pages do not show the &lt;code&gt;private&lt;/code&gt; tests.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The next thing in the list was to &lt;code&gt;publish&lt;/code&gt; these test results of &lt;code&gt;private&lt;/code&gt; tests at some point.
+For the &lt;strong&gt;API&lt;/strong&gt; section, a new endpoint is added to accept a string of &lt;code&gt;run_ids&lt;/code&gt; which is ready to be published, and for the &lt;strong&gt;Self-Service&lt;/strong&gt; , in the Job-History page a &lt;code&gt;Publish&lt;/code&gt; button is added to be clicked after check boxing the required tests.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This ends the list of my planned work for the project. 🎉&lt;/p&gt;
+&lt;h4 id=&#34;some-more-interesting-stuff&#34;&gt;&lt;strong&gt;Some more interesting stuff&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;As we got some more time for the coding period to end, my mentor Antonio Terceiro suggested that I could pick any issue from the opened issues list to work on so I picked up the one to add a user menu for the &lt;strong&gt;Self-Service&lt;/strong&gt; section and completed that.&lt;/p&gt;
+&lt;p&gt;Antonio also gave me insights into &lt;strong&gt;Debian Packaging&lt;/strong&gt; and even let me try packaging a newer upstream version of the package &lt;a href=&#34;https://salsa.debian.org/ruby-team/itamae/-/commit/18a9d883cd83f8aab46f51a97ba20c1e52ff41fa&#34;&gt;itamae&lt;/a&gt; which is one of the packages maintained by him.&lt;/p&gt;
+&lt;p&gt;I also worked on creating a video about my GSoC project for &lt;a href=&#34;https://debconf21.debconf.org/&#34;&gt;DebConf21&lt;/a&gt; and this was truly the hardest thing to do. From setting up everything to final editing, it took me about 2 days to create something sane to submit. Now, I am excited about DebConf21 😃&lt;/p&gt;
+&lt;p&gt;That concludes my work in the second phase of the coding period and next, I will be sharing my &lt;strong&gt;Final Evaluation Submission&lt;/strong&gt; real soon.&lt;/p&gt;
+&lt;p&gt;Stay tuned!&lt;/p&gt;
+</description> 
+    </item>
     
     <item>
       <title>GSoC: First Phase of Coding Period</title>
