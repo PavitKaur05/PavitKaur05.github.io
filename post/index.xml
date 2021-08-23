@@ -7,10 +7,89 @@
     
     <language>en</language>
     <copyright>2021 Pavit Kaur All rights reserved</copyright>
-    <lastBuildDate>Sat, 21 Aug 2021 07:36:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 23 Aug 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://pavitkaur05.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>GSoC 2021: Final Evaluation</title>
+      <link>https://pavitkaur05.github.io/post/gsoc-final-evaluation/</link>
+      <pubDate>Mon, 23 Aug 2021 00:00:00 +0000</pubDate>
+      <author>pavitk1@gmail.com (Pavit Kaur)</author>
+      <guid>https://pavitkaur05.github.io/post/gsoc-final-evaluation/</guid>
+      <description>&lt;p&gt;Project: &lt;strong&gt;Incremental Improvements to Debian’s CI platform&lt;/strong&gt;&lt;br&gt;
+Project Link: &lt;a href=&#34;https://summerofcode.withgoogle.com/projects/#6433686825730048&#34;&gt;https://summerofcode.withgoogle.com/projects/#6433686825730048&lt;/a&gt;&lt;br&gt;
+Code Repository: &lt;a href=&#34;https://salsa.debian.org/ci-team/debci&#34;&gt;https://salsa.debian.org/ci-team/debci&lt;/a&gt;&lt;br&gt;
+Mentors: &lt;a href=&#34;https://salsa.debian.org/terceiro&#34;&gt;Antonio Terceiro&lt;/a&gt; and &lt;a href=&#34;https://salsa.debian.org/elbrus&#34;&gt;Paul Gevers&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id=&#34;about-the-project&#34;&gt;&lt;strong&gt;About the Project&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;Debian Continuous Integration&lt;/strong&gt; is Debian’s CI platform. It runs tests on the packages published in the Debian archive, and today is used to control migration of packages from unstable, Debian’s development area, to testing, the area of the archive where the next Debian release is being prepared. This makes it a crucial part of Debian’s infrastructure.&lt;/p&gt;
+&lt;p&gt;The &lt;a href=&#34;https://ci.debian.net&#34;&gt;web platform&lt;/a&gt; shows the results of all the tests executed. Debian CI provides developers both &lt;strong&gt;API&lt;/strong&gt; and a GUI &lt;strong&gt;Self-Service&lt;/strong&gt; section to request tests for the packages and get information on test history.&lt;/p&gt;
+&lt;p&gt;This project involves implementing incremental improvements to the platform, making it easier to use and maintain.&lt;/p&gt;
+&lt;h5 id=&#34;deliverables-of-the-project&#34;&gt;Deliverables of the project:&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;Migrating Logins to Salsa&lt;/li&gt;
+&lt;li&gt;Adding support for testing security uploads and Debian LTS&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;work-done&#34;&gt;&lt;strong&gt;Work done&lt;/strong&gt;&lt;/h4&gt;
+&lt;h5 id=&#34;migrating-logins-to-salsa&#34;&gt;Migrating Logins to Salsa&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Originally, Debian CI used Debian SSO client certificates for logging in, but since that was deprecated logins are migrated to &lt;a href=&#34;https://salsa.debian.org/&#34;&gt;Salsa&lt;/a&gt;, Debian’s Gitlab instance and this is implemented with the help of &lt;a href=&#34;https://github.com/omniauth/omniauth&#34;&gt;OmniAuth&lt;/a&gt;, the ruby authentication framework.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Another thing fixed as part of this task was that there exists a limitation in the existing database structure, where usernames were directly stored as the test requestor field, so that relationship was normalized with a proper foreign key to the users table.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Merge Requests:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://salsa.debian.org/ci-team/debci/-/merge_requests/179&#34;&gt;Migrate to logins using Salsa&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://salsa.debian.org/ci-team/debci/-/merge_requests/181&#34;&gt;Update the jobs table to add real reference to users table&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;adding-support-for-testing-security-uploads-and-debian-lts&#34;&gt;Adding support for testing security uploads and Debian LTS&lt;/h5&gt;
+&lt;p&gt;In this task, work was done to enable private tests in Debian CI for adding support for testing security uploads and Debian LTS. It includes tasks from adding the &lt;code&gt;private&lt;/code&gt; field in the &lt;strong&gt;API&lt;/strong&gt; and &lt;strong&gt;Self-Service&lt;/strong&gt; section in requesting tests to adding an option to &lt;code&gt;publish&lt;/code&gt; them when ready through both interfaces.&lt;/p&gt;
+&lt;p&gt;Merge Requests:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://salsa.debian.org/ci-team/debci/-/merge_requests/182&#34;&gt;Add private jobs flag to jobs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://salsa.debian.org/ci-team/debci/-/merge_requests/183&#34;&gt;Submit private jobs via API&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://salsa.debian.org/ci-team/debci/-/merge_requests/184&#34;&gt;Fix in migration file&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://salsa.debian.org/ci-team/debci/-/merge_requests/185&#34;&gt;Submit private jobs via Self Service&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://salsa.debian.org/ci-team/debci/-/merge_requests/186&#34;&gt;Add extra-apt-sources in API&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://salsa.debian.org/ci-team/debci/-/merge_requests/187&#34;&gt;Add extra-apt-sources via Self Service&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://salsa.debian.org/ci-team/debci/-/merge_requests/189&#34;&gt;Validate extra apt sources&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://salsa.debian.org/ci-team/debci/-/merge_requests/190&#34;&gt;Publish private tests via API&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://salsa.debian.org/ci-team/debci/-/merge_requests/191&#34;&gt;Update Self-Service Job History Page&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://salsa.debian.org/ci-team/debci/-/merge_requests/193&#34;&gt;Add Publish and Retry in Self-Service&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;others&#34;&gt;Others&lt;/h5&gt;
+&lt;p&gt;I worked on some issues to add usability improvements for the web interface:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://salsa.debian.org/ci-team/debci/-/merge_requests/180&#34;&gt;Change Retry link to point to the self-service interface&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://salsa.debian.org/ci-team/debci/-/merge_requests/195&#34;&gt;Add a user menu in the self-service interface&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;learning-takeaways&#34;&gt;&lt;strong&gt;Learning Takeaways&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;I learned a lot throughout the entire journey. Some of the things to mention are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Writing tests:&lt;/strong&gt; I learned about using &lt;code&gt;Rspec&lt;/code&gt; for writing tests in ruby and understood how writing tests is an integral part of coding any project.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Using good coding practices:&lt;/strong&gt; By my merge requests reviews done by my mentor Antonio, I came to know about good coding practices which help in keeping the code both clean and concise.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;acknowledgement&#34;&gt;&lt;strong&gt;Acknowledgement&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;I owe huge thanks to my mentors &lt;strong&gt;Antonio Terceiro&lt;/strong&gt; and &lt;strong&gt;Paul Gevers&lt;/strong&gt; for their constant support and guidance throughout the entire duration. It is for them that I was able to get started with the code-base of the project in the first place. And while working on the project, they were extremely responsive to all my queries. My merge requests were all thoroughly reviewed which enables me to learn more and work more efficiently. It was a complete pleasure interacting with them on weekly meet calls.&lt;/p&gt;
+&lt;p&gt;To sum up, my GSoC journey was awesome 🎉 and I had a fun and productive summer with &lt;strong&gt;Debian&lt;/strong&gt; 😃&lt;/p&gt;
+&lt;h4 id=&#34;whats-next&#34;&gt;&lt;strong&gt;What&amp;rsquo;s next?&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;As part of a continuation of my project task &lt;strong&gt;Adding support for testing security uploads and Debian LTS&lt;/strong&gt;, I would be working on Debian CI to facilitate the process of connecting the embargoed archive.&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s the end of my GSoC journey but certainly not the end of my journey with &lt;strong&gt;Debian&lt;/strong&gt; or &lt;strong&gt;Open-Source&lt;/strong&gt;. I plan to stay an active contributor to &lt;strong&gt;Debian&lt;/strong&gt; and get involve with more Open Source projects as well 🌟&lt;/p&gt;
+&lt;h4 id=&#34;extras&#34;&gt;&lt;strong&gt;Extras&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;The link to my Salsa Profile for all my work activities can be found &lt;a href=&#34;https://salsa.debian.org/PavitKaur05&#34;&gt;here&lt;/a&gt;.&lt;br&gt;
+To know more about my journey, my other GSoC blog posts can be found below:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://pavitkaur05.github.io/post/journey-to-gsoc/&#34;&gt;Journey to GSoC&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://pavitkaur05.github.io/post/gsoc-about-my-project-and-community-bonding-period/&#34;&gt;GSoC: About my Project and Community Bonding Period&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://pavitkaur05.github.io/post/gsoc-phase-1/&#34;&gt;GSoC: First Phase of Coding Period&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://pavitkaur05.github.io/post/gsoc-phase-2/&#34;&gt;GSoC: Second Phase of Coding Period&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description> 
+    </item>
     
     <item>
       <title>GSoC: Second Phase of Coding Period</title>

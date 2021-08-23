@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  	<meta charset="utf-8">
+  	<meta name="viewport"    content="width=device-width, initial-scale=1.0">
+  	<meta name="description" content="">
+  	<meta name="author"      content="map[email:pavitk1@gmail.com name:Pavit Kaur]">
+    
+    	<title>GSoC 2021: Final Evaluation</title>
+	<link rel="shortcut icon" href="https://pavitkaur05.github.io/images/gt_favicon.png">
+	<link rel="alternate" type="application/rss+xml" href="https://pavitkaur05.github.io/index.xml" title="My Site">
+	
+	<link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.no-icons.min.css" rel="stylesheet">
+	
+	
+	<script defer src="https://use.fontawesome.com/releases/v5.0.11/js/all.js" integrity="sha384-ImVoB8Er8knetgQakxuBS4G3RSkyD8IZVVQCAnmRJrDwqJFYUE4YOv+DbIofcO9C" crossorigin="anonymous"></script>
+	
+	
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alice|Open+Sans:400,300,700">
+	
+	
+  
+  <link rel="stylesheet" href="https://pavitkaur05.github.io/css/styles.min.478ce7f1a7e39f30dd5d9e06334de159c15dff169ed6a37c9787a11587b5044191393621cd4d4526fc1394fbcac15e9291bb69d0fb3ae8b777d95cb0c3bb33f1.css" integrity="sha512-R4zn8afjnzDdXZ4GM03hWcFd/xae1qN8l4ehFYe1BEGROTYhzU1FJvwTlPvKwV6Skbtp0Ps66Ld32Vyww7sz8Q==">
+
+   
+  
+
+	
+  </head>
+  
+  <body class="home">
+    
+      
+
+
+<nav class="navbar navbar-default navbar-sticky">
+    <div class="container-fluid">
+
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="true">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+
+        <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
+
+            <ul class="nav navbar-nav">
+            
+                
+                <li>
+                    <a href="/">home</a>
+                </li>
+                
+            
+                
+                <li>
+                    <a href="/post/">blog</a>
+                </li>
+                
+            
+                
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+                
+            
+            </ul>
+
+        </div> 
+        
+    </div>
+</nav>
+
+</header>
+    
+ 
+    
+<main id="main">
+
+	<div class="container">
+
+		<div class="row topspace">
+			<div class="col-sm-8 col-sm-offset-2">
+
+ 				<article class="post">
+					<header class="entry-header">
+ 						<div class="entry-meta">
+               <span class="posted-on">
+                  <time class="entry-date published" datetime="August 23, 2021">August 23, 2021</time>
+               </span>
+ 						</div>
+ 						<h1 class="entry-title"><a href="https://pavitkaur05.github.io/post/gsoc-final-evaluation/" rel="bookmark">GSoC 2021: Final Evaluation</a></h1>
+					</header>
+					<div class="entry-content">
+						<p>Project: <strong>Incremental Improvements to Debian’s CI platform</strong><br>
+Project Link: <a href="https://summerofcode.withgoogle.com/projects/#6433686825730048">https://summerofcode.withgoogle.com/projects/#6433686825730048</a><br>
+Code Repository: <a href="https://salsa.debian.org/ci-team/debci">https://salsa.debian.org/ci-team/debci</a><br>
+Mentors: <a href="https://salsa.debian.org/terceiro">Antonio Terceiro</a> and <a href="https://salsa.debian.org/elbrus">Paul Gevers</a></p>
+<h4 id="about-the-project"><strong>About the Project</strong></h4>
+<p><strong>Debian Continuous Integration</strong> is Debian’s CI platform. It runs tests on the packages published in the Debian archive, and today is used to control migration of packages from unstable, Debian’s development area, to testing, the area of the archive where the next Debian release is being prepared. This makes it a crucial part of Debian’s infrastructure.</p>
+<p>The <a href="https://ci.debian.net">web platform</a> shows the results of all the tests executed. Debian CI provides developers both <strong>API</strong> and a GUI <strong>Self-Service</strong> section to request tests for the packages and get information on test history.</p>
+<p>This project involves implementing incremental improvements to the platform, making it easier to use and maintain.</p>
+<h5 id="deliverables-of-the-project">Deliverables of the project:</h5>
+<ul>
+<li>Migrating Logins to Salsa</li>
+<li>Adding support for testing security uploads and Debian LTS</li>
+</ul>
+<h4 id="work-done"><strong>Work done</strong></h4>
+<h5 id="migrating-logins-to-salsa">Migrating Logins to Salsa</h5>
+<ul>
+<li>
+<p>Originally, Debian CI used Debian SSO client certificates for logging in, but since that was deprecated logins are migrated to <a href="https://salsa.debian.org/">Salsa</a>, Debian’s Gitlab instance and this is implemented with the help of <a href="https://github.com/omniauth/omniauth">OmniAuth</a>, the ruby authentication framework.</p>
+</li>
+<li>
+<p>Another thing fixed as part of this task was that there exists a limitation in the existing database structure, where usernames were directly stored as the test requestor field, so that relationship was normalized with a proper foreign key to the users table.</p>
+</li>
+</ul>
+<p>Merge Requests:</p>
+<ul>
+<li><a href="https://salsa.debian.org/ci-team/debci/-/merge_requests/179">Migrate to logins using Salsa</a></li>
+<li><a href="https://salsa.debian.org/ci-team/debci/-/merge_requests/181">Update the jobs table to add real reference to users table</a></li>
+</ul>
+<h5 id="adding-support-for-testing-security-uploads-and-debian-lts">Adding support for testing security uploads and Debian LTS</h5>
+<p>In this task, work was done to enable private tests in Debian CI for adding support for testing security uploads and Debian LTS. It includes tasks from adding the <code>private</code> field in the <strong>API</strong> and <strong>Self-Service</strong> section in requesting tests to adding an option to <code>publish</code> them when ready through both interfaces.</p>
+<p>Merge Requests:</p>
+<ul>
+<li><a href="https://salsa.debian.org/ci-team/debci/-/merge_requests/182">Add private jobs flag to jobs</a></li>
+<li><a href="https://salsa.debian.org/ci-team/debci/-/merge_requests/183">Submit private jobs via API</a></li>
+<li><a href="https://salsa.debian.org/ci-team/debci/-/merge_requests/184">Fix in migration file</a></li>
+<li><a href="https://salsa.debian.org/ci-team/debci/-/merge_requests/185">Submit private jobs via Self Service</a></li>
+<li><a href="https://salsa.debian.org/ci-team/debci/-/merge_requests/186">Add extra-apt-sources in API</a></li>
+<li><a href="https://salsa.debian.org/ci-team/debci/-/merge_requests/187">Add extra-apt-sources via Self Service</a></li>
+<li><a href="https://salsa.debian.org/ci-team/debci/-/merge_requests/189">Validate extra apt sources</a></li>
+<li><a href="https://salsa.debian.org/ci-team/debci/-/merge_requests/190">Publish private tests via API</a></li>
+<li><a href="https://salsa.debian.org/ci-team/debci/-/merge_requests/191">Update Self-Service Job History Page</a></li>
+<li><a href="https://salsa.debian.org/ci-team/debci/-/merge_requests/193">Add Publish and Retry in Self-Service</a></li>
+</ul>
+<h5 id="others">Others</h5>
+<p>I worked on some issues to add usability improvements for the web interface:</p>
+<ul>
+<li><a href="https://salsa.debian.org/ci-team/debci/-/merge_requests/180">Change Retry link to point to the self-service interface</a></li>
+<li><a href="https://salsa.debian.org/ci-team/debci/-/merge_requests/195">Add a user menu in the self-service interface</a></li>
+</ul>
+<h4 id="learning-takeaways"><strong>Learning Takeaways</strong></h4>
+<p>I learned a lot throughout the entire journey. Some of the things to mention are:</p>
+<ul>
+<li><strong>Writing tests:</strong> I learned about using <code>Rspec</code> for writing tests in ruby and understood how writing tests is an integral part of coding any project.</li>
+<li><strong>Using good coding practices:</strong> By my merge requests reviews done by my mentor Antonio, I came to know about good coding practices which help in keeping the code both clean and concise.</li>
+</ul>
+<h4 id="acknowledgement"><strong>Acknowledgement</strong></h4>
+<p>I owe huge thanks to my mentors <strong>Antonio Terceiro</strong> and <strong>Paul Gevers</strong> for their constant support and guidance throughout the entire duration. It is for them that I was able to get started with the code-base of the project in the first place. And while working on the project, they were extremely responsive to all my queries. My merge requests were all thoroughly reviewed which enables me to learn more and work more efficiently. It was a complete pleasure interacting with them on weekly meet calls.</p>
+<p>To sum up, my GSoC journey was awesome 🎉 and I had a fun and productive summer with <strong>Debian</strong> 😃</p>
+<h4 id="whats-next"><strong>What&rsquo;s next?</strong></h4>
+<p>As part of a continuation of my project task <strong>Adding support for testing security uploads and Debian LTS</strong>, I would be working on Debian CI to facilitate the process of connecting the embargoed archive.</p>
+<p>It&rsquo;s the end of my GSoC journey but certainly not the end of my journey with <strong>Debian</strong> or <strong>Open-Source</strong>. I plan to stay an active contributor to <strong>Debian</strong> and get involve with more Open Source projects as well 🌟</p>
+<h4 id="extras"><strong>Extras</strong></h4>
+<p>The link to my Salsa Profile for all my work activities can be found <a href="https://salsa.debian.org/PavitKaur05">here</a>.<br>
+To know more about my journey, my other GSoC blog posts can be found below:</p>
+<ul>
+<li><a href="https://pavitkaur05.github.io/post/journey-to-gsoc/">Journey to GSoC</a></li>
+<li><a href="https://pavitkaur05.github.io/post/gsoc-about-my-project-and-community-bonding-period/">GSoC: About my Project and Community Bonding Period</a></li>
+<li><a href="https://pavitkaur05.github.io/post/gsoc-phase-1/">GSoC: First Phase of Coding Period</a></li>
+<li><a href="https://pavitkaur05.github.io/post/gsoc-phase-2/">GSoC: Second Phase of Coding Period</a></li>
+</ul>
+
+					</div>
+				</article>
+
+			</div>
+		</div> 
+
+		<div class="row">
+			<div class="col-sm-8 col-sm-offset-2">
+
+				<div id="share">
+					
+				</div>
+			</div>
+		</div> 
+		<div class="clearfix"></div>
+
+		<div class="row">
+			<div class="col-sm-8 col-sm-offset-2">
+
+				<div id="comments">
+					
+				</div>
+			</div>
+		</div> 
+		<div class="clearfix"></div>
+
+	</div>	
+
+</main>
+
+    
+    
+      <footer id="footer">
+	<div class="container">
+		<div class="row">
+			
+			<div class="col-md-3 widget">
+				<h3 class="widget-title">Contact</h3>
+				<div class="widget-body">
+					<p>
+					<a href="mailto:pavitk1@gmail.com">pavitk1@gmail.com</a><br>
+					<br>
+					
+					</p>
+				</div>
+			</div>
+			
+
+			
+			<div class="col-md-3 widget">
+				<h3 class="widget-title">Follow me</h3>
+				<div class="widget-body">
+					<p class="follow-me-icons">
+            
+							
+            
+							
+								<a href="https://twitter.com/PavitKaur4" target="_blank"><i class="fab fa-twitter-square fa-1x"></i></a>
+							
+            
+							
+            
+							
+            
+							
+								<a href="https://www.linkedin.com/in/pavit-kaur-a23604178/" target="_blank"><i class="fab fa-linkedin fa-1x"></i></a>
+							
+            
+							
+            
+							
+								<a href="https://github.com/PavitKaur05" target="_blank"><i class="fab fa-github fa-1x"></i></a>
+							
+            
+							
+            
+							
+								<a href="https://salsa.debian.org/PavitKaur05" target="_blank"><i class="fab fa-gitlab fa-1x"></i></a>
+							
+            
+							
+								<a href="https://pavitkaur05.github.io/post/index.xml" target="_blank"><i class="fas fa-rss fa-1x"></i></a>
+							
+            
+					</p>
+				</div>
+			</div>
+			
+
+			
+
+			
+
+		</div> 
+	</div>
+</footer>
+
+<footer id="underfooter">
+	<div class="container">
+		<div class="row">
+
+			<div class="col-md-6 widget">
+				<div class="widget-body">
+					<p></p>
+				</div>
+			</div>
+
+			<div class="col-md-6 widget">
+				<div class="widget-body">
+					<p class="text-right">
+						Copyright &copy; 2021, Pavit Kaur<br>
+						Design: <a href="http://www.gettemplate.com" rel="designer">Initio by GetTemplate</a> - 
+						Powered by: <a href="https://gohugo.io/" rel="poweredby">Hugo</a>
+					</p>
+				</div>
+			</div>
+
+		</div> 
+	</div>
+</footer>
+
+
+
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+
+
+
+<script src="https://pavitkaur05.github.io/js/bundle.min.f4a965ad0a8118e32f8f0f158ff3aadbacf700934c22286a1a5b245105e9006da73a873b001a160db22498909c1df14d1f835dba5ad76f80b32b0234182b2a58.js" integrity="sha512-9KllrQqBGOMvjw8Vj/Oq26z3AJNMIihqGlskUQXpAG2nOoc7ABoWDbIkmJCcHfFNH4NdulrXb4CzKwI0GCsqWA=="></script>
+
+<script id="dsq-count-scr" src="///count.js" async></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script>
+
+</body>
+</html>
+
+    
+  </body>
+  
+</html>
